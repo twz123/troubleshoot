@@ -305,10 +305,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: azure/docker-login@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USER }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      # - uses: azure/docker-login@v1
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USER }}
+      #     password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - uses: actions/setup-go@v4
         with:
@@ -319,18 +319,18 @@ jobs:
           # DO NOT USE v2 until we decide on whether to use Rekor or not
           cosign-release: "v1.13.1"  # Binary version to install
 
-      - name: Get Cosign Key
-        run: |
-          echo $COSIGN_KEY | base64 -d > ./cosign.key
-        env:
-          COSIGN_KEY: ${{secrets.COSIGN_KEY}}
+      # - name: Get Cosign Key
+      #   run: |
+      #     echo $COSIGN_KEY | base64 -d > ./cosign.key
+      #   env:
+      #     COSIGN_KEY: ${{secrets.COSIGN_KEY}}
 
-      - name: Generate SBOM
-        run: |
-          make sbom
-        env:
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-          COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
+      # - name: Generate SBOM
+      #   run: |
+      #     make sbom
+      #   env:
+      #     COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+      #     COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5
@@ -340,11 +340,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update new preflight version in krew-index
-        uses: rajatjindal/krew-release-bot@v0.0.46
-        with:
-          krew_template_file: deploy/krew/preflight.yaml
-      - name: Update new support-bundle version in krew-index
-        uses: rajatjindal/krew-release-bot@v0.0.46
-        with:
-          krew_template_file: deploy/krew/support-bundle.yaml
+      # - name: Update new preflight version in krew-index
+      #   uses: rajatjindal/krew-release-bot@v0.0.46
+      #   with:
+      #     krew_template_file: deploy/krew/preflight.yaml
+      # - name: Update new support-bundle version in krew-index
+      #   uses: rajatjindal/krew-release-bot@v0.0.46
+      #   with:
+      #     krew_template_file: deploy/krew/support-bundle.yaml
