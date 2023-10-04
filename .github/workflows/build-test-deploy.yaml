@@ -299,6 +299,10 @@ jobs:
       - validate-preflight-e2e
       - validate-supportbundle
     if: startsWith(github.ref, 'refs/tags/v')
+
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
